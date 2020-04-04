@@ -2,7 +2,8 @@
   <script>
     /* Warning: all the code on this page is very sloppy! caveat emptor */
     /* configuration */
-    var SPREADSHEET_ID = '1LjTyAZFUPdExRWSNcAileSOHEZVO4BOjQLakpZqIv5g';
+    var SPREADSHEET_ID = '1CiJwMGSsyIbRCvAh4vl_Xe7ihamnazow1H1zExKAnbw';
+//    var SPREADSHEET_ID = '1kX93Z66qR4jeItE54809uvwqexR9PEIyNrOVGW6W6MI';
     var REGISTER_FORM_URL =
       'https://docs.google.com/forms/d/e/1FAIpQLSeSOM3mirqQGp6aOko797WPc9g4D0q4gbpPuB1pTMPreiToGA/viewform';
     var GOOGLE_ANALYTICS_ID = 'UA-162722290-1';
@@ -96,6 +97,7 @@
     /* site scripts */
     /****************************************/
     var SHEET = [];
+    var REF;			
     var JSON_URL = `https://spreadsheets.google.com/feeds/cells/${SPREADSHEET_ID}/1/public/full?alt=json`;
     const showTellMeMore = () => {
       var x = document.getElementById('tell_me_more');
@@ -116,6 +118,9 @@
       document.getElementById(`business_${row_number}_description`).style.display = 'block';
     };
     const sendGAEvent = (send, type, event_category, event_action, event_label, event_value) => {
+      if(REF != null && (event_category == "PayLink Buttons" || event_category == "UPI Buttons")) {
+        event_category = event_category + " " + REF;
+      }
       if (type == 'event') {
         gtag('event', event_action, {
           event_category: event_category,
@@ -128,12 +133,18 @@
     var number_of_businesses;
     const parseSheetResult = result => {
       let colMap = {
+	    <!-- Manual Verified Sheet -->
         '1': 'business_name',
-        '2': 'owner_name',
-        '3': 'mobile_number',
-        '4': 'location',
-		'5': 'upi_address',
-        '6': 'payment_url',
+        '2': 'upi_address',
+        '3': 'location',
+        '4': 'description',
+        '5': 'payment_url',
+	    <!-- Form Response Sheet -->
+//	    '2': 'business_name',
+//      '9': 'upi_address',
+//      '5': 'location',
+//      '7': 'description',
+//      '10': 'payment_url',
       };
       var rows = [];
       result.feed.entry.map(e => {
@@ -173,48 +184,38 @@
         .map((row, i) => {
           let outer = document.createElement('div');
           outer.className = `place_pill`;
-           ['business_name', 'owner_name', 'mobile_number', 'location', 'upi_address', 'payment_url'].map(k => {
+          ['business_name', 'location', 'upi_address', 'description', 'payment_url'].map(k => {
             let div = document.createElement('div');
             div.className = `div_content_${k}`;
             div.id = `business_${i}_${k}`;
-            if (k == 'upi_address') {
+          if (k == 'upi_address') {
               if (row[k] == null && row['payment_url'] != null) {
-                //FundMe
+                //PayLink
                 div.innerHTML =
-                  "<div class='support_pill'><a target='_blank' href='" +
+                  "<div class='paylink_pill'><a target='_blank' href='" +
                   row['payment_url'] +
-                  '\' onClick=\'sendGAEvent("send", "event", "FundMe Buttons", "Clicked individual business", "' +
+                  '\' onClick=\'sendGAEvent("send", "event", "PayLink Buttons", "Clicked individual business", "' +
                   row['payment_url'] +
                   '", "' +
                   i +
-                  "\");'>Support us" +
+                  "\");'><img src='https://i.imgur.com/VqPVSjd.png' width='86px;'/>" +
                   '</a></div>';
-			 } else {
-             if (row[upi_address] != null && row['payment_url'] != null) {
+              } else {
+                let upi_username = (row[k]);
+                //UPI
                 div.innerHTML =
-                  "<div class='support_pill'><a target='_blank' href='" +
-                  row['payment_url'] +
-                  '\' onClick=\'sendGAEvent("send", "event", "FundMe Buttons", "Clicked individual business", "' +
-                  row['payment_url'] +
+                  "<div class='upi_pill' ><a target='_blank' href='" +
+                  <!-- row['upi_address'] + -->
+                  '\' onClick=\'sendGAEvent("send", "event", "UPI Buttons", "Clicked individual business", "' +
+                  upi_username +
                   '", "' +
                   i +
-                  "\");'>Support us" +
-                  '</a></div>'; }
+                  "\");'><img src='https://i.imgur.com/c3vxbq1.png' width='86px;'/>" +
+                  upi_username +
+                  '</a></div>';
               }
-
-				  	} else if (row[upi_address] != null && row['payment_url'] == null) {
-	                div.innerHTML =
-	                  "<div class='fundme_pill'><a target='_blank' href='" +
-	                  row['upi_address'] +
-	                  '\' onClick=\'sendGAEvent("send", "event", "FundMe Buttons", "Clicked individual business", "' +
-	                  row['upi_address'] +
-	                  '", "' +
-	                  i +
-	                  "\");'><img src='https://i.imgur.com/GcUY3Py.png' width='25px;'/>" +
-	                  row['upi_address'] +
-	                  '</a></div>'; }				  
-	             	  		  
-	             else if (k == 'upi_address' || k == 'location') {
+            }             	  		  
+	             else if (k == 'business_name' || k == 'location') {
 				 div.textContent = row[k];
             } else if (k == 'description') {
               let long_description_div = document.createElement('div');
@@ -284,7 +285,6 @@
     href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/gloves_1f9e4.png"
 	  />
 	<!-- https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/heavy-black-heart_2764.png  -->
-
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css" />
   <style type="text/css">
     .material-icons {
@@ -438,11 +438,9 @@
       padding-top: 2px;
       font-size: 14px;
     }
-	   
 	   .logo_pill {	
 	      margin: 0px 0px;	
 	    }	
-		
 	    .logo_pill a {	
 	      text-decoration: none;	
 	      background: #F5F5F5;	
@@ -453,16 +451,13 @@
 	      align-items: center;	
 	      color: black;	
 	    }	
-		
 	    .logo_pill img {	
 	      margin-right: 10px;	
 	    }	
-	
-	
-    .support_pill {
+    .upi_pill {
       margin: 10px 0px;
     }
-    .support_pill a {
+    .upi_pill a {
       text-decoration: none;
       background: #6696cc;
       border: 1px solid #6696cc;
@@ -472,13 +467,13 @@
       align-items: center;
       color: white;
     }
-    .support_pill img {
+    .upi_pill img {
       margin-right: 18px;
     }
-    .fundme_pill {
+    .paylink_pill {
       margin: 20px 0px;
     }
-    .fundme_pill a {
+    .paylink_pill a {
       text-decoration: none;
       background: rgb(0, 195, 103);
       border: 1px solid rgb(0, 195, 103);
@@ -488,7 +483,7 @@
       align-items: center;
       color: white;
     }
-    .fundme_pill img {
+    .paylink_pill img {
       margin-right: 10px;
     }
     .lucky_pill {
@@ -578,17 +573,15 @@
           ><img src="https://i.imgur.com/qsmxjr5.png" width="40px;" /><h1 class="f4 measure">Click here to list your business for donations</h1></a
         >
       </div>	
-	
-  <!--     <div class="support_pill">
+  <!--     <div class="upi_pill">
         <a
-          id="main_support_link"
+          id="main_upi_link"
           target="_blank"
           href="https://bailoutindia.org"
-          onClick="sendGAEvent('send', 'event', 'Support Buttons', 'bailoutindia main button', '0', '0')"
+          onClick="sendGAEvent('send', 'event', 'UPI Buttons', 'bailoutindia main button', '0', '0')"
           ><img src="https://i.imgur.com/BRxVTs7.png" width="30px;" style="margin-left:-6px;"/>Support @bailoutindia</a
         >
       </div> -->
-
     </div>
     <div class="fl w-100 pa2">
       <div class="bg-white br1 pa3" style="border-radius:4px;">
@@ -640,7 +633,6 @@
           </p>
         </div>
       </div>
- 
       <div
         class="bg-white br1 pa3"
         style="border-radius:4px; margin-top:20px; margin-bottom: 15px;"
