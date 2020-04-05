@@ -2,8 +2,8 @@
   <script>
     /* Warning: all the code on this page is very sloppy! caveat emptor */
     /* configuration */
-//    var SPREADSHEET_ID = '1CiJwMGSsyIbRCvAh4vl_Xe7ihamnazow1H1zExKAnbw';
-	var SPREADSHEET_ID = '1kX93Z66qR4jeItE54809uvwqexR9PEIyNrOVGW6W6MI';
+    var SPREADSHEET_ID = '1CiJwMGSsyIbRCvAh4vl_Xe7ihamnazow1H1zExKAnbw';
+//	var SPREADSHEET_ID = '1kX93Z66qR4jeItE54809uvwqexR9PEIyNrOVGW6W6MI';
     var REGISTER_FORM_URL =
       'https://docs.google.com/forms/d/e/1FAIpQLSeSOM3mirqQGp6aOko797WPc9g4D0q4gbpPuB1pTMPreiToGA/viewform';
     var GOOGLE_ANALYTICS_ID = 'UA-162722290-1';
@@ -134,20 +134,20 @@
     const parseSheetResult = result => {
       let colMap = {
 	    <!-- Manual Verified Sheet -->
-     '1': 'business_name',
-     '2': 'upi_address',
-     '3': 'location',
-     '4': 'description',
- 	'5': 'payment_url',
-	 	'6': 'amount',
+     <!-- '1': 'business_name', -->
+     <!-- '2': 'upi_address', -->
+     <!-- '3': 'location', -->
+     <!-- '4': 'description', -->
+ 	<!-- '5': 'payment_url', -->
+	 	<!-- '6': 'amount', -->
 		
 	    <!-- Form Response Sheet -->
-		<!-- '2': 'business_name', -->
-		<!-- '9': 'upi_address', -->
-		<!-- '5': 'location', -->
-		<!-- '7': 'description', -->
-		<!-- '10': 'payment_url', -->
-		<!-- '12': 'amount', -->
+		'2': 'business_name',
+		'9': 'upi_address',
+		'5': 'location',
+		'7': 'description',
+		'10': 'payment_url',
+		'12': 'amount',
       };
       var rows = [];
       result.feed.entry.map(e => {
