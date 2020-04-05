@@ -227,7 +227,7 @@ if (k == 'upi_address')
 					let upi_amount = (row['amount']).concat('&nbsp;&nbsp;&nbsp;&nbsp;','::','&nbsp;&nbsp;&nbsp;&nbsp;');
 					//UPI
 					div.innerHTML =
-					"<div class='upi_pill' ><a target='_blank' onclick='return false;' href='" +
+					"<div class='upi_pill' style='word-wrap: break-word;' ><a target='_blank' onclick='return false;' href='" +
 					<!-- row['upi_address'] + -->
 					'\' onClick=\'sendGAEvent("send", "event", "UPI Buttons", "Clicked individual business", "' +
 					upi_username +
