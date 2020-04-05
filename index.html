@@ -196,12 +196,13 @@ if (k == 'upi_address')
 	{
         if (row[k] == null && row['payment_url'] != null) 
 		{
+			let payment_link = (row['payment_url']);
 			//PayLink
 			div.innerHTML =
 			"<div class='paylink_pill'><a target='_blank' href='" +
-			row['payment_url'] +
+			payment_link +
 			'\' onClick=\'sendGAEvent("send", "event", "PayLink Buttons", "Clicked individual business", "' +
-			row['payment_url'] +
+			payment_link +
 			'", "' +
 			i +
 			"\");'><img src='https://i.imgur.com/VqPVSjd.png' width='86px;'/>" +
@@ -215,7 +216,7 @@ if (k == 'upi_address')
 					div.innerHTML =
 					"<div class='paylink_pill'><a target='_blank' href='" +
 					pmcares_link +
-					'\' onClick=\'sendGAEvent("send", "event", "Venmo Buttons", "Clicked individual business", "' +
+					'\' onClick=\'sendGAEvent("send", "event", "PayLink Buttons", "Clicked individual business", "' +
 					pmcares_link +
 					'", "' +
 					i +
