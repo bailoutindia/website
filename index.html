@@ -196,13 +196,12 @@ if (k == 'upi_address')
 	{
         if (row[k] == null && row['payment_url'] != null) 
 		{
-			let payment_link = (row['payment_url']);
 			//PayLink
 			div.innerHTML =
 			"<div class='paylink_pill'><a target='_blank' href='" +
-			payment_link +
+			row['payment_url'] +
 			'\' onClick=\'sendGAEvent("send", "event", "PayLink Buttons", "Clicked individual business", "' +
-			payment_link +
+			row['payment_url'] +
 			'", "' +
 			i +
 			"\");'><img src='https://i.imgur.com/VqPVSjd.png' width='86px;'/>" +
