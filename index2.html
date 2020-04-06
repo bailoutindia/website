@@ -225,7 +225,8 @@ if (k == 'upi_address')
 				{
 					let upi_username = (row[k]);
 					let upi_amount = (row['amount']).concat('&nbsp;&nbsp;&nbsp;&nbsp;','::','&nbsp;&nbsp;&nbsp;&nbsp;');
-					//UPI
+					//UPI 
+					<!-- https://i.imgur.com/c3vxbq1.png -->
 					div.innerHTML =
 					"<div class='upi_pill' ><a target='_blank' onclick='return false;' href='" +
 					<!-- row['upi_address'] + -->
@@ -233,7 +234,7 @@ if (k == 'upi_address')
 					upi_username +
 					'", "' +
 					i +
-					"\");'><img src='https://i.imgur.com/c3vxbq1.png' width='86px;'/>Rs." +
+					"\");'><img src='https://i.imgur.com/KYT2eJb.png' width='17px;' height='26px;'/>&#8377;" +
 					upi_amount + upi_username +
 					'</a><div class="GeneratedText"><span style="font-size: 12px;"><em>Use the above UPI in any payment apps to contribute them directly..</em></span></div></div>';
 				}
@@ -485,7 +486,7 @@ if (k == 'upi_address')
 	
 	
     .upi_pill {
-      margin: 10px 0px;
+      margin: 20px 0px;
     }
     .upi_pill a {
       text-decoration: none;
@@ -496,17 +497,10 @@ if (k == 'upi_address')
       display: flex;
       align-items: center;
       color: white;
-	  
-	      overflow-wrap: break-word;
-    word-wrap: break-word;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
-	  
+	  	  
     }
     .upi_pill img {
-      margin-right: 18px;
+      margin-right: 10px;
     }
     .paylink_pill {
       margin: 20px 0px;
@@ -707,7 +701,7 @@ if (k == 'upi_address')
             </a>
           </div>
         </div>
-        <div>So many small businesses need help, use this button to randomly choose one.</div>
+        <div>So many small businesses need help, use this button to randomly choose one to contribute to.</div>
       </div>
     </div>
     <div class="fl w-100 pt10 pa2">
