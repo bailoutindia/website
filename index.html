@@ -166,6 +166,7 @@
       return rows;
     };
     const drawTable = sheet => {
+	      let ALL_UPI_USERS = [];
       let t = document.getElementById('sheet');
       t.innerHTML = '';
       const sortAlpha = (a, b) => {
@@ -224,7 +225,9 @@ if (k == 'upi_address')
 				} else 		  
 				{
 					let upi_username = (row[k]);
-					let upi_amount = (row['amount']).concat('&nbsp;&nbsp;&nbsp;&nbsp;','::','&nbsp;&nbsp;&nbsp;&nbsp;');
+					let rupee_symbol = "(&#8377;";
+					ALL_UPI_USERS.push(upi_username);
+					let upi_amount = (row['amount']).concat(')&nbsp;&nbsp;::&nbsp;&nbsp;');
 					//UPI 
 					<!-- https://i.imgur.com/c3vxbq1.png -->
 					div.innerHTML =
@@ -234,8 +237,8 @@ if (k == 'upi_address')
 					upi_username +
 					'", "' +
 					i +
-					"\");'><img src='https://i.imgur.com/KYT2eJb.png' width='17px;' height='26px;'/>&#8377;" +
-					upi_amount + upi_username +
+					"\");'><img src='https://i.imgur.com/KYT2eJb.png' width='17px;' height='26px;'/>" +
+					rupee_symbol.small() + upi_amount.small() + upi_username +  
 					'</a><div class="GeneratedText"><span style="font-size: 12px;"><em>Use the above UPI in any payment apps to contribute them directly..</em></span></div></div>';
 				}
         }
@@ -267,6 +270,7 @@ if (k == 'upi_address')
             t.appendChild(outer);
           });
         });
+		console.log(ALL_UPI_USERS);
     };
     const searchFilter = () => {
       const searchInput = document.getElementById('search');
@@ -615,7 +619,7 @@ if (k == 'upi_address')
           ><img src="https://i.imgur.com/BRxVTs7.png" width="30px;" style="margin-left:-6px;"/>Support @bailoutindia</a
         >
       </div> -->
-
+<div id="all_upi_users" class="upi_pill"></div>
     </div>
     <div class="fl w-100 pa2">
       <div class="bg-white br1 pa3" style="border-radius:4px;">
